@@ -4,12 +4,9 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../Components/Navbar";
 
 function Home() {
-  const [products, setProducts] = useState([]); // Products array
-  const [productToEdit, setProductToEdit] = useState(null); // For edit
-  const navigate = useNavigate(); // React Router navigation
-
-  // Fetch products from json-server using async/await
-  useEffect(() => {
+  const [products, setProducts] = useState([]);  
+   const navigate = useNavigate(); 
+   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const res = await fetch("http://localhost:5000/products");
@@ -25,8 +22,7 @@ function Home() {
     fetchProducts();
   }, []);
 
-  // Delete product
-  const handleDelete = async (id) => {
+   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       try {
         await fetch(`http://localhost:5000/products/${id}`, { method: "DELETE" });
@@ -37,14 +33,15 @@ function Home() {
     }
   };
 
-  // Edit product
+   
+  
   const handleEdit = (product) => {
-    setProductToEdit(product);
-    navigate(`/edit/${product.id}`); // Redirect to edit page
-  };
+  navigate(`/edit/${product.id}`);  
+};
 
   return (
-    <div>
+    <div className="font-sans">
+         
         <Navbar />
         <h1 className="px-8 pt-6 text-3xl  font-bold mx-7 ">StockMaster</h1>
         <h2 className="px-8 py-3 pb-7 text-xl   text-[#627495]  font-bold   mx-7 ">Take Control of Your Inventory, One Product at a Time</h2>

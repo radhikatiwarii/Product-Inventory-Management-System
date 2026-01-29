@@ -1,10 +1,8 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import Navbar from './Components/Navbar'
-import { BrowserRouter } from 'react-router-dom'
-import ProductList from './Components/ProductList'
-import Home from './Pages/Home'
+import { Routes,Route,BrowserRouter } from 'react-router-dom'
+ import Home from './Pages/Home'
+import AddProduct from './Pages/AddProduct'
+import EditProduct from './Pages/EditProduct'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -12,7 +10,12 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Home />
+       <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/add" element={<AddProduct />} />
+                  <Route path="/edit/:id" element={<EditProduct />} /> {/* id parameter */}
+
+            </Routes>
       </BrowserRouter>
 
     </>

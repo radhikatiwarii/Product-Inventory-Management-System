@@ -1,3 +1,6 @@
+import { FaEdit } from "react-icons/fa";
+import { MdAutoDelete } from "react-icons/md";
+
 function ProductList({ products, onDelete, onEdit }) {
     return (
         <>
@@ -54,16 +57,17 @@ function ProductList({ products, onDelete, onEdit }) {
                                         <td className="px-8 py-5 text-right space-x-3">
                                             <button
                                                 onClick={() => onEdit(product)}
-                                                className="text-blue-600 font-semibold hover:underline"
+                                                className=" text-slate-500 font-semibold hover:underline hover:text-green-500"
                                             >
-                                                Edit
+                                               <FaEdit />
                                             </button>
 
                                             <button
                                                 onClick={() => onDelete(product.id)}
-                                                className="text-red-600 font-semibold hover:underline"
+                                                className=" text-slate-500 font-semibold hover:underline hover:text-red-500"
                                             >
-                                                Delete
+                                                <MdAutoDelete />
+
                                             </button>
                                         </td>
                                     </tr>

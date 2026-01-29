@@ -1,0 +1,22 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "Laptop",
+            "category": "Electronics",
+            "price": 50000
+        },
+        {
+            "id": 2,
+            "name": "Chair",
+            "category": "Furniture",
+            "price": 2000
+        },
+        {
+            "id": 3,
+            "name": "Pen",
+            "category": "Stationery",
+            "price": 10
+        }
+    ]
+}

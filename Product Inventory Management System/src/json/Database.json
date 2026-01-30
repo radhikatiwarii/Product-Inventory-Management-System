@@ -38,15 +38,9 @@
     },
     {
       "id": "7",
-      "name": "jhjs",
-      "category": "kshjk",
-      "price": 21
-    },
-    {
-      "id": "8",
-      "name": "sw",
-      "category": "s2",
-      "price": 123
+      "name": "Book",
+      "category": "Stationary",
+      "price": 1200
     }
   ]
 }

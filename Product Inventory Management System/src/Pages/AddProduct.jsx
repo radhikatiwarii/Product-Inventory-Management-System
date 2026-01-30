@@ -11,7 +11,7 @@ function AddProduct() {
 
   const navigate = useNavigate();
 
-  const validateForm = () => {
+   const validateForm = () => {
     let newErrors = {};
 
     if (!name.trim()) {
@@ -34,59 +34,61 @@ function AddProduct() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
-  e.preventDefault();
+   const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  if (!validateForm()) return;
+    if (!validateForm()) return;
 
-  try {
-     const res = await fetch("http://localhost:5000/products");
-    const products = await res.json();
+    try {
+       const res = await fetch("http://localhost:5000/products");
+      const products = await res.json();
 
-     const lastId =
-      products.length > 0
-        ? Number(products[products.length - 1].id)
-        : 0;
+      const lastId = products.length > 0 ? Number(products[products.length - 1].id) : 0;
 
-     const newProduct = {
-      id: String(lastId + 1), 
-      name,
-      category,
-      price: Number(price)
-    };
+      const newProduct = {
+        id: String(lastId + 1),
+        name,
+        category,
+        price: Number(price),
+      };
 
-     await fetch("http://localhost:5000/products", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(newProduct)
-    });
+      await fetch("http://localhost:5000/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newProduct),
+      });
 
-Swal.fire({
-  icon: "success",
-  title: "Product Added!",
-  text: "Product added successfully",
-  showConfirmButton: false,
-  timer: 2000,
-  background: "#ffffff",
-  color: "#1f2937"
-});    navigate("/");
-  } catch (error) {
-    console.log("Error adding product:", error);
-  }
-};
+       Swal.fire({
+        icon: "success",
+        title: "Product Added!",
+        text: "Product added successfully",
+        showConfirmButton: false,
+        timer: 2000,
+        background: "#ffffff",
+        color: "#1f2937",
+      });
+
+      setTimeout(() => navigate("/"), 2000);
+    } catch (error) {
+      console.log("Error adding product:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops!",
+        text: "Failed to add product. Please try again.",
+      });
+    }
+  };
 
   return (
     <>
       <Navbar />
 
-      <div className="max-w-xl mx-auto mt-10 bg-white p-8 rounded-2xl shadow-xl my-[4rem] border border-gray-100">
-        <h2 className="text-2xl font-bold text-slate-800 text-center">
+      <div className="max-w-xl mx-auto mt-6 sm:mt-10 bg-white p-4 sm:p-6 md:p-8 rounded-2xl shadow-xl my-6 sm:my-[4rem] border border-gray-100">
+        <h2 className="text-xl sm:text-2xl font-bold text-slate-800 text-center">
           Add Product
         </h2>
 
-        <p className="text-sm text-slate-500 mt-1 text-center mb-5 pb-5">
+        <p className="text-xs sm:text-sm text-slate-500 mt-1 text-center mb-4 sm:mb-5 pb-4 sm:pb-5">
           Please enter Product details
         </p>
 
@@ -107,9 +109,7 @@ Swal.fire({
                 }`}
             />
             {errors.name && (
-              <p className="text-red-500 text-xs mt-1 mb-2">
-                {errors.name}
-              </p>
+              <p className="text-red-500 text-xs mt-1 mb-2">{errors.name}</p>
             )}
           </div>
 
@@ -128,9 +128,7 @@ Swal.fire({
                 }`}
             />
             {errors.category && (
-              <p className="text-red-500 text-xs mt-1 mb-2">
-                {errors.category}
-              </p>
+              <p className="text-red-500 text-xs mt-1 mb-2">{errors.category}</p>
             )}
           </div>
 
@@ -149,17 +147,15 @@ Swal.fire({
                 }`}
             />
             {errors.price && (
-              <p className="text-red-500 text-xs mt-1 mb-2">
-                {errors.price}
-              </p>
+              <p className="text-red-500 text-xs mt-1 mb-2">{errors.price}</p>
             )}
           </div>
 
           {/* BUTTONS */}
-          <div>
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
             <button
               type="submit"
-              className="w-[75%] bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold"
+              className="w-full sm:w-[70%] bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold"
             >
               Add Product
             </button>
@@ -167,7 +163,7 @@ Swal.fire({
             <button
               type="button"
               onClick={() => navigate("/")}
-              className="text-[#62748e] py-3 px-8 rounded-lg font-semibold"
+              className="w-full sm:w-auto text-[#62748e] py-3 px-8 rounded-lg font-semibold"
             >
               Go Back
             </button>

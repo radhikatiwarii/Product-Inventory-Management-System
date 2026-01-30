@@ -1,6 +1,7 @@
 import Navbar from "../Components/Navbar";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function AddProduct() {
   const [name, setName] = useState("");
@@ -34,31 +35,47 @@ function AddProduct() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!validateForm()) return;
+  if (!validateForm()) return;
 
-    const newProduct = {
+  try {
+     const res = await fetch("http://localhost:5000/products");
+    const products = await res.json();
+
+     const lastId =
+      products.length > 0
+        ? Number(products[products.length - 1].id)
+        : 0;
+
+     const newProduct = {
+      id: String(lastId + 1), 
       name,
       category,
       price: Number(price)
     };
 
-    try {
-      await fetch("http://localhost:5000/products", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(newProduct)
-      });
+     await fetch("http://localhost:5000/products", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(newProduct)
+    });
 
-      alert("Product Added Successfully ✅");
-      navigate("/");
-    } catch (error) {
-      console.log("Error adding product:", error);
-    }
-  };
+Swal.fire({
+  icon: "success",
+  title: "Product Added!",
+  text: "Product added successfully",
+  showConfirmButton: false,
+  timer: 2000,
+  background: "#ffffff",
+  color: "#1f2937"
+});    navigate("/");
+  } catch (error) {
+    console.log("Error adding product:", error);
+  }
+};
 
   return (
     <>

@@ -3,6 +3,7 @@ import Navbar from "../Components/Navbar";
 import ProductList from "../Components/ProductList";
 import SearchBar from "../Components/SearchBar";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function Home() {
   const [products, setProducts] = useState([]);
@@ -25,16 +26,43 @@ function Home() {
   }, []);
 
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this product?")) {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "This product will be deleted permanently!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#dc2626",  
+    cancelButtonColor: "#64748b",  
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "Cancel"
+  }).then(async (result) => {
+    if (result.isConfirmed) {
       try {
-        await fetch(`http://localhost:5000/products/${id}`, { method: "DELETE" });
+        await fetch(`http://localhost:5000/products/${id}`, {
+          method: "DELETE"
+        });
+
         setProducts(products.filter((product) => product.id !== id));
+
+        Swal.fire({
+          icon: "success",
+          title: "Deleted!",
+          text: "Product has been deleted.",
+          timer: 1500,
+          showConfirmButton: false
+        });
       } catch (error) {
         console.error("Failed to delete product:", error);
+
+        Swal.fire({
+          icon: "error",
+          title: "Error!",
+          text: "Failed to delete product"
+        });
       }
     }
-  };
-
+  });
+};
   const handleEdit = (product) => {
     navigate(`/edit/${product.id}`);
   };

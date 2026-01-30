@@ -3,14 +3,14 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 function EditProduct() {
-  const { id } = useParams();  
+  const { id } = useParams();
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
-   useEffect(() => {
+  useEffect(() => {
     const fetchProduct = async () => {
       try {
         const res = await fetch(`http://localhost:5000/products/${id}`);
@@ -25,7 +25,7 @@ function EditProduct() {
     fetchProduct();
   }, [id]);
 
-   const validateForm = () => {
+  const validateForm = () => {
     let newErrors = {};
 
     if (!name.trim()) {
@@ -48,7 +48,7 @@ function EditProduct() {
     return Object.keys(newErrors).length === 0;
   };
 
-   const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
 
@@ -60,15 +60,22 @@ function EditProduct() {
 
     try {
       await fetch(`http://localhost:5000/products/${id}`, {
-        method: "PUT",  
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(updatedProduct),
       });
 
-      alert("Product Updated Successfully ✅");
-      navigate("/");  
+      Swal.fire({
+        icon: "success",
+        title: "Product Updated!",
+        text: "Product Updated successfully",
+        showConfirmButton: false,
+        timer: 2000,
+        background: "#ffffff",
+        color: "#1f2937"
+      }); navigate("/");
     } catch (error) {
       console.log("Error updating product:", error);
     }

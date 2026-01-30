@@ -52,6 +52,7 @@ This project allows users to manage products by adding, viewing, editing, deleti
 - Tailwind CSS
 - JSON Server
 - React Icons
+- SweetAlert2 (for styled alerts & confirmations)
 
  
  

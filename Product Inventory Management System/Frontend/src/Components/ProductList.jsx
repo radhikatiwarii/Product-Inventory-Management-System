@@ -4,8 +4,7 @@ import { MdAutoDelete } from "react-icons/md";
 function ProductList({ products, onDelete, onEdit }) {
   return (
     <div className="bg-white rounded-2xl mx-4 sm:mx-10 border border-gray-100 shadow-xl shadow-slate-200/50 overflow-hidden">
-      {/* Responsive horizontal scroll */}
-      <div className="overflow-x-auto">
+       <div className="overflow-x-auto">
         <table className="w-full min-w-[600px] sm:min-w-full text-left">
           <thead>
             <tr className="bg-slate-50/70 border-b border-gray-100">
@@ -34,10 +33,10 @@ function ProductList({ products, onDelete, onEdit }) {
                 </td>
               </tr>
             ) : (
-              products.map((product) => (
-                <tr key={product.id} className="hover:bg-slate-50 transition">
+              products.map((product,index) => (
+                <tr key={product._id} className="hover:bg-slate-50 transition">
                   <td className="px-4 sm:px-8 py-3 sm:py-5 text-sm sm:text-base text-slate-600 font-medium">
-                    {product.id}
+                    {index+1}
                   </td>
                   <td className="px-4 sm:px-8 py-3 sm:py-5 text-sm sm:text-base font-semibold text-slate-800">
                     {product.name}
@@ -56,7 +55,7 @@ function ProductList({ products, onDelete, onEdit }) {
                       <FaEdit className="text-sm sm:text-base" />
                     </button>
                     <button
-                      onClick={() => onDelete(product.id)}
+                      onClick={() => onDelete(product._id)}
                       className="text-slate-500 font-semibold hover:text-red-500"
                     >
                       <MdAutoDelete className="text-sm sm:text-base" />

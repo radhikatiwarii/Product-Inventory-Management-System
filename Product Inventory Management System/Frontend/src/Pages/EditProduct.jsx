@@ -15,7 +15,7 @@ function EditProduct() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/products/${id}`);
+        const res = await fetch(`http://localhost:5000/api/products/${id}`);
         const data = await res.json();
         setName(data.name);
         setCategory(data.category);
@@ -51,7 +51,7 @@ function EditProduct() {
     const updatedProduct = { name, category, price: Number(price) };
 
     try {
-      await fetch(`http://localhost:5000/products/${id}`, {
+      await fetch(`http://localhost:5000/api/products/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedProduct),

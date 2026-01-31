@@ -10,11 +10,11 @@ function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
-  // Fetch products
+  // ✅ Fetch products from backend
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("http://localhost:5000/products");
+        const res = await fetch("http://localhost:5000/api/products");
         const data = await res.json();
         setProducts(data);
       } catch (error) {
@@ -24,46 +24,54 @@ function Home() {
     fetchProducts();
   }, []);
 
-  // Delete product with confirmation
-  const handleDelete = async (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "This product will be deleted permanently!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#dc2626",
-      cancelButtonColor: "#64748b",
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          await fetch(`http://localhost:5000/products/${id}`, { method: "DELETE" });
-          setProducts(products.filter((product) => product.id !== id));
-          Swal.fire({
-            icon: "success",
-            title: "Deleted!",
-            text: "Product has been deleted.",
-            timer: 1500,
-            showConfirmButton: false,
-          });
-        } catch (error) {
-          Swal.fire({
-            icon: "error",
-            title: "Error!",
-            text: "Failed to delete product",
-          });
-        }
+  // ✅ Delete functionality
+ const handleDelete = (id) => {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "This product will be deleted permanently!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#dc2626",
+    cancelButtonColor: "#64748b",
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "Cancel",
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      try {
+         await fetch(`http://localhost:5000/api/products/${id}`, {
+          method: "DELETE",
+        });
+
+ setProducts((prevProducts) => prevProducts.filter((product) => product._id !== id));
+        Swal.fire({
+          icon: "success",
+          title: "Deleted!",
+          text: "Product has been deleted.",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Error!",
+          text: "Failed to delete product",
+        });
       }
-    });
-  };
+    }
+  });
+};
 
+
+  // ✅ Edit functionality
   const handleEdit = (product) => {
-    navigate(`/edit/${product.id}`);
+    navigate(`/edit/${product._id}`);
   };
 
-  const filteredProducts = products.filter((product) =>
-    product.category.toLowerCase().includes(searchTerm.toLowerCase())
+  // ✅ Search  functionality
+  const filteredProducts = products.filter(
+    (product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (

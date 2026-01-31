@@ -1,23 +1,26 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+require("dotenv").config();
+const productRoutes = require("./routes/productRoutes"); // import route
 
-const app = express();
+const app = express(); // app ko pehle initialize karo
 
 // middlewares
 app.use(cors());
 app.use(express.json());
 
-// 🔗 MongoDB Atlas connection
-mongoose.connect(
-  "mongodb+srv://Radhika_Tiwari:Nityam12345@cluster0.uxfhin6.mongodb.net/Products_data"
-)
-.then(() => {
-  console.log("MongoDB Atlas connected");
-})
-.catch((err) => {
-  console.log("MongoDB connection error:", err);
-});
+// routes
+app.use("/api/products", productRoutes); // ab app use kar sakte ho
+
+// MongoDB connection
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("MongoDB Atlas connected");
+  })
+  .catch((err) => {
+    console.log("MongoDB connection error:", err);
+  });
 
 // test route
 app.get("/", (req, res) => {
@@ -25,6 +28,7 @@ app.get("/", (req, res) => {
 });
 
 // server start
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
